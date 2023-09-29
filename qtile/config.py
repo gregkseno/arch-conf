@@ -32,19 +32,20 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile import extension
 
-cache='/home/greg/.cache/wal/colors'
+cache = '/home/greg/.config/qtile/colors'
 colors = []
 
 def load_colors(cache):
     with open(cache, 'r') as file:
-        for i in range(8):
-            colors.append(file.readline().strip())
+       for i in range(8):
+           colors.append(file.readline().strip())
     colors.append('#ffffff')
 
 @hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser('~/.config/qtile/autostart.sh')
     subprocess.Popen([home])
+    pass
 
 load_colors(cache)
 mod = "mod4"
@@ -81,7 +82,7 @@ groups = [Group("main"),
 
 for i, group in enumerate(groups):
     keys.extend(
-        [
+[
             Key(
                 [mod],
                 str(i + 1),
@@ -94,7 +95,7 @@ for i, group in enumerate(groups):
                 lazy.window.togroup(group.name, switch_group=True),
                 desc="Switch to & move focused window to group {}".format(group.name),
             )
-        ]
+            ]
     )
 
 layouts = [
@@ -117,20 +118,20 @@ screens = [
                 widget.GroupBox(highlight_method='text', active=colors[1], inactive=colors[1], this_current_screen_border=colors[0], disable_drag=True),
                 widget.Prompt(),
                 widget.Spacer(),
-                widget.Clock(format="%d/%m/%Y %H:%M"),
+                widget.Clock(format="%d.%m.%Y %H:%M"),
                 widget.Spacer(),
                 widget.CheckUpdates(colour_have_updates=colors[0]),
-                widget.Sep(linewidth=2, size_percent=45, padding=10),
-                widget.Wlan(format="{essid} {percent:2.0%}", update_interval=5),
-                widget.Sep(linewidth=2, size_percent=45, padding=10),
-                widget.Volume(fmt="🔊 {}"),
-                widget.Sep(linewidth=2, size_percent=45, padding=10),
-                widget.Battery(format="🔋 {percent:2.0%} ", update_interval=5),
-                widget.WidgetBox(widgets=[
-                    widget.LaunchBar(progs=[('🌙', 'systemctl suspend'), ('🔄', 'systemctl reboot'), ('⏻', 'systemctl poweroff')])
-                    ],
-                    close_button_location='right', text_open='💻  ', text_closed='💻  ',
-                )
+                # widget.Sep(linewidth=2, size_percent=45, padding=10),
+                # widget.Wlan(format="{essid} {percent:2.0%}", update_interval=5),
+                # widget.Sep(linewidth=2, size_percent=45, padding=10),
+                # widget.Volume(fmt="Volume: {}"),
+                # widget.Sep(linewidth=2, size_percent=45, padding=10),
+                # widget.Battery(format="🔋 {percent:2.0%} ", update_interval=5),
+                # widget.WidgetBox(widgets=[
+                #     widget.LaunchBar(progs=[('🌙', 'systemctl suspend'), ('🔄', 'systemctl reboot'), ('⏻', 'systemctl poweroff')])
+                #     ],
+                #     close_button_location='right', text_open='💻  ', text_closed='💻  ',
+                # )
             ],
             36,
             opacity=0.85,
@@ -138,7 +139,7 @@ screens = [
             background=colors[7],
             border_color=colors[7]
         ),
-        wallpaper='~/Pictures/pink-sky.png',
+        wallpaper='~/Pictures/Wallpapers/gto.jpg',
         wallpaper_mode='stretch',
     ),
 ]
@@ -178,4 +179,4 @@ auto_minimize = True
 # When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = None
 
-wmname = "LG3D"
+wmname = "Qtile"

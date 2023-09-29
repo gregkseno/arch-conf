@@ -1,3 +1,2 @@
 #!/bin/sh
-xbindkeys
-(picom &)
+picom &
