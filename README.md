@@ -28,3 +28,6 @@ Section "InputClass"
 	Option "AccelerationThreshold" "0"
 EndSection
 ```
+
+### Emoji fix
+To fix squares instead of emoji/symbols install font listed [here](https://wiki.archlinux.org/title/Fonts#Emoji_and_symbols)
