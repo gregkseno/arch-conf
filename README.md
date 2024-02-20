@@ -29,5 +29,9 @@ Section "InputClass"
 EndSection
 ```
 
-### Emoji fix
+## Emoji fix
 To fix squares instead of emoji/symbols install font listed [here](https://wiki.archlinux.org/title/Fonts#Emoji_and_symbols)
+
+## Dependencies
+1. pywal -- for auto coloring WM
+2. toml -- configuration of alacritty (to change colors in config)
