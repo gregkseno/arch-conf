@@ -31,22 +31,39 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile import extension
+from libqtile.log_utils import logger
 
-cache = '/home/greg/.config/qtile/colors'
-colors = []
+import pywal
+from toml import load as load_toml
+from toml import dump as write_toml
 
-def load_colors(cache):
-    with open(cache, 'r') as file:
-       for i in range(8):
-           colors.append(file.readline().strip())
-    colors.append('#ffffff')
+wallpapers_path = '/home/greg/Pictures/Wallpapers/anime-face.png'
+alacritty_config = "/home/greg/.config/alacritty/alacritty.toml" 
+
+def load_colors(wallpapers_path): 
+    image = pywal.image.get(wallpapers_path)
+    colors_dict = pywal.colors.get(image, backend="colorz", sat="0.3")
+    wallpaper_path = colors_dict['wallpaper']
+    colors = list(colors_dict['colors'].values())
+
+    with open(alacritty_config, "r") as file:
+        alacritty_toml = load_toml(file)
+
+    for i, color in enumerate(alacritty_toml['colors']['normal'].keys()):
+        alacritty_toml['colors']['normal'][color] = colors[:8][i]
+        alacritty_toml['colors']['bright'][color] = colors[8:][i]
+   
+    with open(alacritty_config, "w") as file:
+        write_toml(alacritty_toml, file)
+    lazy.spawn('~/.config/qtile/alacritty_colors.sh ~/.config/alacritty/alacritty.toml')
+    return wallpaper_path, colors[:8], colors[:8] 
 
 @hook.subscribe.startup_once
-def autostart():
-   home = os.path.expanduser('~/.config/qtile/autostart.sh')
-   subprocess.Popen([home])
+def autostart():  
+    autostart_path = os.path.expanduser('~/.config/qtile/autostart.sh')
+    subprocess.Popen([autostart_path])
 
-load_colors(cache)
+wallpaper_path, colors, _ = load_colors(wallpapers_path)
 mod = "mod4"
 terminal = guess_terminal()
 
@@ -75,7 +92,6 @@ keys = [
     Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
 ]
 
-group = ["term", "irc", "web"]
 groups = [Group("main"),
           Group("term"),
           Group("web", matches=[Match(wm_class="firefox")])]
@@ -98,34 +114,62 @@ for i, group in enumerate(groups):
             ]
     )
 
+layout_theme = {
+    "margin": 5,
+    "border_focus": colors[3],
+    "border_normal": colors[0],
+    "font": "Source Code Pro Semibold",
+    "grow_amount": 2,
+}
 layouts = [
-    layout.Columns(border_focus=colors[7], border_normal=colors[0], border_width=3, margin=5),
-    layout.Max(margin=5),
+    layout.Columns(**layout_theme),
+    layout.Max(**layout_theme),
 ]
 
 widget_defaults = dict(
     font="Source Code Pro Semibold",
     fontsize=16,
     padding=4,
-    foreground=colors[0]
+    background=colors[0],
+    foreground=colors[7]
 )
+
 extension_defaults = widget_defaults.copy()
 
+group_box_settings = {
+    "active": colors[1],
+    "inactive": colors[1],
+    "disable_drag": True,
+    "rounded": True,
+    "highlight_method": "text",
+    "this_current_screen_border": colors[7],
+    "this_screen_border": colors [7],
+    "other_current_screen_border": colors[1],
+    "other_screen_border": colors[1],
+    "urgent_alert_method": "line",
+    "urgent_border": colors[1]
+}
+sep_settings = {
+    "linewidth": 2,
+    "size_percent": 45,
+    "padding": 10,
+    "foreground": colors[3]
+}
 screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.GroupBox(highlight_method='text', active=colors[1], inactive=colors[1], this_current_screen_border=colors[0], disable_drag=True),
+                widget.GroupBox(**group_box_settings),
                 widget.Prompt(),
                 widget.Spacer(),
                 widget.Clock(format="%d.%m.%Y %H:%M"),
                 widget.Spacer(),
-                widget.CheckUpdates(colour_have_updates=colors[0], no_update_string='No updates'),
+                widget.CheckUpdates(dsitro='Arch', colour_have_updates=colors[2], no_update_string='No updates', colour_no_updates=colors[1]),
                 # widget.Sep(linewidth=2, size_percent=45, padding=10),
                 # widget.Wlan(format="{essid} {percent:2.0%}", update_interval=5),
-                widget.Sep(linewidth=2, size_percent=45, padding=10),
+                widget.Sep(**sep_settings),
                 widget.Volume(fmt="Volume: {}"),
-                widget.Sep(linewidth=2, size_percent=45, padding=10),
+                widget.Sep(**sep_settings),
                 # widget.Battery(format="🔋 {percent:2.0%} ", update_interval=5),
                 widget.WidgetBox(widgets=[
     		widget.LaunchBar(_progs=[('󰤄 ', 'systemctl suspend'), (' ', 'systemctl reboot'), (' ', 'systemctl poweroff')])
@@ -136,10 +180,10 @@ screens = [
             36,
             opacity=0.85,
             margin=[5, 5, 0, 5],
-            background=colors[7],
-            border_color=colors[7]
+            # background=colors[7],
+            # border_color=colors[7]
         ),
-        wallpaper='~/Pictures/Wallpapers/gto.jpg',
+        wallpaper=wallpaper_path,
         wallpaper_mode='stretch',
     ),
 ]
@@ -166,7 +210,8 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
-    ]
+    ],
+    **layout_theme
 )
 auto_fullscreen = True
 focus_on_window_activation = "smart"
