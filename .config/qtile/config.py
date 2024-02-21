@@ -37,7 +37,7 @@ import pywal
 from toml import load as load_toml
 from toml import dump as write_toml
 
-wallpapers_path = '/home/greg/Pictures/Wallpapers/anime-face.png'
+wallpapers_path = '/home/greg/Pictures/Wallpapers/ozero_sklon_doma_188654_1920x1080.jpg'
 alacritty_config = "/home/greg/.config/alacritty/alacritty.toml" 
 
 def load_colors(wallpapers_path): 
