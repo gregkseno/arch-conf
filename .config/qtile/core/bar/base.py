@@ -53,9 +53,9 @@ widgets = [
     widget.Spacer(),
     upd_widget,
     # widget.Wlan(format="{essid} {percent:2.0%}", update_interval=5),
-    widget.Sep(**sep_settings),
+    sep_widget,
     widget.Volume(fmt="Volume: {}"),
-    widget.Sep(**sep_settings),
+    sep_widget,
     # widget.Battery(format="🔋 {percent:2.0%} ", update_interval=5),
     power_widget
 ]

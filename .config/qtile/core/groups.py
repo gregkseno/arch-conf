@@ -1,18 +1,17 @@
-from libqtile.config import Group, Key
+from libqtile.config import Group, Key, Match
 from libqtile.lazy import lazy
 
 from core.keys import keys, mod
-from utils.match import wm_class
 
 
 groups: list[Group] = []
 
 for key, label, layout, matches in [
-    ("1", "", "max", wm_class("code")),
-    ("2", "", None, wm_class("alacritty")),
-    ("3", "󰈹", "max", wm_class("google-chrome-stable", "firefox")),
-    ("w", "󰇮", "max", wm_class("discord", "telegram-desktop")),
-    ("e", "", "max", wm_class("spotify")),
+    ("1", "", "max", Match(wm_class="code")),
+    ("2", "", None, Match(wm_class="alacritty")),
+    ("3", "󰈹", "max", Match(wm_class=["google-chrome", "firefox"])),
+    ("w", "󰇮", "max", Match(wm_class=["discord", "telegram-desktop"])),
+    ("e", "", "max", Match(wm_class="spotify")),
 ]:
     groups.append(Group(key, matches, label=label, layout=layout))
 
