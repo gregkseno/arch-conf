@@ -25,7 +25,7 @@ sep_widget = widget.Sep(
 )
 
 upd_widget = widget.CheckUpdates(
-    dsitro='Arch',
+    dsitro='Arch_checkupdates',
     colour_have_updates=colors.red,
     no_update_string='No updates',
     colour_no_updates=colors.white
@@ -35,12 +35,12 @@ power_widget = widget.WidgetBox(
     widgets=[
         widget.LaunchBar(_progs=[
             ('󰤄 ', 'systemctl suspend'),
-            (' ', 'systemctl reboot'), 
+            (' ', 'systemctl reboot'),
             (' ', 'systemctl poweroff')
         ])
     ],
     close_button_location='right',
-    text_open='   ', 
+    text_open='   ',
     text_closed='   ',
 )
 
