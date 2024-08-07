@@ -24,11 +24,20 @@ sep_widget = widget.Sep(
     foreground=colors.foreground
 )
 
+# kbd_widget = widget.KeyboardKbdd(
+#     configured_keyboards=['us', 'ru'],
+# )
+
 upd_widget = widget.CheckUpdates(
     dsitro='Arch_checkupdates',
     colour_have_updates=colors.red,
     no_update_string='No updates',
     colour_no_updates=colors.white
+)
+
+vol_widget = widget.Volume(
+    fmt="Volume: {}",
+    scroll_delay=0
 )
 
 power_widget = widget.WidgetBox(
@@ -54,9 +63,11 @@ widgets = [
     widget.Systray(),
     sep_widget,
     upd_widget,
+    sep_widget,
+    # kbd_widget,
     # widget.Wlan(format="{essid} {percent:2.0%}", update_interval=5),
     sep_widget,
-    widget.Volume(fmt="Volume: {}"),
+    vol_widget,
     sep_widget,
     # widget.Battery(format="🔋 {percent:2.0%} ", update_interval=5),
     power_widget

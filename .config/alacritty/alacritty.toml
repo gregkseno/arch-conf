@@ -1,45 +1,48 @@
 [font]
-size = 11.0
+size = 12.0
+
+[scrolling]
+history = 100
 
 [window]
-opacity = 0.85
+opacity = 0.97
 
 [font.bold]
 family = "Source Code Pro"
 style = "Bold"
-
-[font.bold_italic]
-family = "Source Code Pro"
-style = "Bold Italic"
-
-[font.italic]
-family = "Source Code Pro"
-style = "Italic"
 
 [font.normal]
 family = "Source Code Pro"
 style = "Regular"
 
 [window.padding]
-x = 6
-y = 6
-
-[colors.normal]
-black = "#2d2424"
-red = "#cf223e"
-green = "#959a6b"
-yellow = "#e39c45"
-blue = "#614f76"
-magenta = "#ae3f82"
-cyan = "#756d94"
-white = "#ffe9c7"
+x = 15
+y = 15
 
 [colors.bright]
 black = "#c1aeae"
-red = "#ae4750"
-green = "#97916f"
-yellow = "#cd9165"
 blue = "#83546b"
-magenta = "#a05a78"
 cyan = "#79657a"
+green = "#97916f"
+magenta = "#a05a78"
+red = "#ae4750"
 white = "#2d2424"
+yellow = "#cd9165"
+
+[colors.cursor]
+cursor = "CellForeground"
+text = "CellBackground"
+
+[colors.normal]
+black = "#2d2424"
+blue = "#614f76"
+cyan = "#756d94"
+green = "#959a6b"
+magenta = "#ae3f82"
+red = "#cf223e"
+white = "#ffe9c7"
+yellow = "#e39c45"
+
+[colors.primary]
+background = "#1e2327"
+foreground = "#d3c6aa"
