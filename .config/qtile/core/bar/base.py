@@ -51,6 +51,8 @@ widgets = [
     widget.Spacer(),
     widget.Clock(format="%d.%m.%Y %H:%M"),
     widget.Spacer(),
+    widget.Systray(),
+    sep_widget,
     upd_widget,
     # widget.Wlan(format="{essid} {percent:2.0%}", update_interval=5),
     sep_widget,
